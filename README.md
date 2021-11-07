@@ -25,3 +25,13 @@ Instalar los módulos utilizados
 npm i
 ```
 
+## Otros
+
+Puerto utilizado:
+
+>7777
+
+Ruta principal:
+
+>"/"
+
