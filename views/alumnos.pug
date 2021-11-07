@@ -1,0 +1,39 @@
+extends base.pug
+
+block title 
+    title Alumnos
+    link(rel="stylesheet", href="bootstrap/bootstrap.min.css")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js")
+    script(src="js/alumnos.js") 
+    script.
+        var data = !{JSON.stringify(data)};
+block header 
+    nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+            .container-fluid
+                a.navbar-brand(href='/') Tarea1_LenerQ
+                .navbar-nav.justify-content-center
+                    a.nav-link.active(aria-current='page' href='/') Alumno
+                    a.nav-link(href='/carreras') Carrera
+block container
+    .container
+        .row
+            .col.mt-3
+                p
+                    a.btn.btn-outline-success(href="/alumno/?accion=nuevo") Nuevo Alumno
+                .table-responsive
+                    table.table.table-hover.align-middle
+                        thead 
+                            tr
+                                th(scope='col') N°Identidad
+                                th(scope='col') Nombre
+                                th(scope='col') Telefono
+                                th(scope='col') Correo
+                                th(scope='col') Sexo
+                                th(scope='col') Edad
+                                th(scope='col') Carrera
+                                th(scope='col') Acción
+                        tbody#data-alumnos
+                    
+
+
+

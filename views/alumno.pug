@@ -1,0 +1,97 @@
+extends base.pug
+block title 
+    link(rel="stylesheet", href="../bootstrap/bootstrap.min.css")
+    link(rel="stylesheet", href="../mc-calendar/mc-calendar.min.css")
+    title Alumno
+block header
+    //- Barra de navegación
+    nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+            .container-fluid
+                a.navbar-brand(href='/') Tarea1_LenerQ
+                .navbar-nav.justify-content-center
+                    a.nav-link.active(aria-current='page' href='/') Alumno
+                    a.nav-link(href='/carreras') Carrera
+block container
+    .container
+        //- Parte del cuerpo del formulario reutilizable
+        mixin mensajeError(mensaje) 
+            svg(xmlns='http://www.w3.org/2000/svg' style='display: none;')
+                symbol#exclamation-triangle-fill(fill='currentColor' viewbox='0 0 16 16')
+                    path(d='M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z')
+            .alert.alert-dark.d-flex.align-items-center.mt-5(role='alert')
+                        svg.bi.flex-shrink-0.me-2(width='24' height='24' role='img' aria-label='Danger:')
+                            use(xlink:href='#exclamation-triangle-fill')
+                        div=mensaje
+                        a.btn.btn-dark.ms-3(href='/') Regresar
+        mixin cuerpo
+                    .row.mt-3
+                        .col
+                            label.form-label(for='alumnoTelefono') Teléfono
+                            .input-group.has-validation
+                                .input-group-text +504
+                                input#alumnoTelefono.form-control(type='number'  name='alumnoTelefono' required)
+                        .col
+                            label.form-label(for='alumnoCorreo') Correo Electrónico
+                            input#alumnoCorreo.form-control(type='email'  name='alumnoCorreo' required)
+                    .row.mt-3
+                        .col
+                            label.form-label(for='alumnoSexo') Sexo
+                            select#alumnoSexo.form-select(aria-label='Seleccione un sexo'  name='alumnoSexo' required)
+                                option(selected disabled) Seleccione un sexo
+                                option(value='f') Femenino
+                                option(value='m') Másculino
+                        .col
+                            label.form-label(for='alumnoFechaNacimiento') Fecha de Nacimiento
+                            input#alumnoFechaNacimiento.form-control(type='text'  name='alumnoFechaNacimiento' required)
+                        .col
+                            label.form-label(for='carreraId') Carrera
+                            select#carreraId.form-select(aria-label='Seleccione una carrera'  name='carreraId' required)
+                                option(selected disabled) Seleccione una carrera
+                    .row.mt-3
+                        .col.d-grid.gap-2
+                            button#btnGuardar.btn.btn-dark(type='submit') Guardar
+                        .col.d-grid.gap-2
+                            a.btn.btn-dark(href='/') Regresar
+
+        //- Creacion de un nuevo alumno        
+        - let temp1 = accion == "nuevo"
+        if temp1
+            h2.mt-3 Nuevo Alumno
+            form#f-rm-NuevoAlumno(action='/alumno' method='post')
+                .row.mt-3
+                    .col
+                        label.form-label(for='alumnoId') Numero de Identidad
+                        input#alumnoId.form-control(type='number'  name='alumnoId' required)
+                    .col
+                        label.form-label(for='alumnoNombre') Nombre Completo
+                        input#alumnoNombre.form-control(type='text'  name='alumnoNombre' required)
+                +cuerpo
+
+        //- Editar un alumno existente
+        - let temp2 = accion == "editar" && alumno != ""
+        if temp2
+            h2.mt-3 #{alumno[0].alumnoNombre}
+            form#f-rm-NuevoAlumno(action='/alumno/editar' method='post')
+                .row.mt-3
+                    .col
+                        label.form-label(for='alumnoId') Numero de Identidad
+                        input#alumnoId.form-control( type='number'  name='alumnoId' required readonly)
+                    .col
+                        label.form-label(for='alumnoNombre') Nombre Completo
+                        input#alumnoNombre.form-control(type='text'  name='alumnoNombre' required)
+                +cuerpo
+
+        //- Errores
+        - let temp3 = accion =="error" && err
+        if temp3
+            +mensajeError(err.sqlMessage)
+
+//- Bloque de scripts utilizados
+block footer
+    script.
+        let accion = !{JSON.stringify(accion)} 
+        let carreras = !{JSON.stringify(carreras)}
+        let alumno = !{JSON.stringify(alumno)}
+        let err = !{JSON.stringify(err)}
+    script(src="../mc-calendar/mc-calendar.min.js")
+    script(src="../js/alumno.js") 
