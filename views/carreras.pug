@@ -4,17 +4,14 @@ extends base.pug
 block title 
     title Carreras
     link(rel="stylesheet", href="bootstrap/bootstrap.min.css")
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js")
-    script(src="../js/carreras.js") 
-    script.
-        var data = !{JSON.stringify(data)};
-block container
+block header
     nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
             .container-fluid
                 a.navbar-brand(href='/') Tarea1_LenerQ
                 .navbar-nav.justify-content-center
                     a.nav-link(href='/') Alumno
                     a.nav-link.active(aria-current='page' href='/carreras') Carrera
+block container
     .container
         .row
             .col.mt-3
@@ -31,7 +28,9 @@ block container
                             th(scope='col') Formato
                             th(scope='col') Acción
                     tbody#data-carreras
-                    
-
+block footer
+    script.
+        var data = !{JSON.stringify(data)};
+    script(src="../js/carreras.js") 
 
 
